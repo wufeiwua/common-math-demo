@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CommonsMathDemo</title>
+</head>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.0.2/echarts.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts-gl/2.0.6/echarts-gl.js"></script>
+<script src="../static/api.js"></script>
+<body>
+<div>点击下方按钮生成随机拟合结果图</div>
+<div id = "main" style="width: 100vw;height:80vh;"></div>
+<div style="display: flex">
+  <div id = "3dLine1" style="width: 50vw;height:80vh;display: none" ></div>
+  <div id = "3dLine2" style="width: 50vw;height:80vh;display: none"></div>
+</div>
+<div id = "func"></div>
+
+<div class="buttons">
+  <button onclick="doLinear()">线性函数拟合</button>
+  <button onclick="doSimple()">一元多项式函数拟合</button>
+  <button onclick="doCustomize()">自定函数拟合</button>
+  <button onclick="doMultiple()">多元多项式函数拟合</button>
+</div>
+</body>
+<script>
+  function doLinear(){
+    linear().then(res=>{
+      let {scatters, fitRes: {data:fit, func}} = res
+      drawLine(scatters, fit, func)
+    })
+  }
+
+  function doSimple(){
+    simple().then(res=>{
+      let {scatters, fitRes: {data:fit, func}} = res
+      drawLine(scatters, fit, func)
+    })
+  }
+
+  function doCustomize(){
+    customize().then(res=>{
+      let {scatters, fitRes: {data:fit, func}} = res
+      drawLine(scatters, fit, func)
+    })
+  }
+
+  function doMultiple(){
+    multiple().then(res=>{
+      let {scatters, fitRes: {data:fit, func}} = res
+      draw3dLine(scatters, fit, func)
+    })
+  }
+
+
+  const chartDom = document.getElementById('main');
+  // const myChart = echarts.init(chartDom, null, {renderer: 'svg'});
+  const myChart = echarts.init(chartDom, null, {renderer: 'canvas'});
+
+  const line3dDome1 = document.getElementById('3dLine1');
+  const line3dDome2 = document.getElementById('3dLine2');
+  const my3dChart1 = echarts.init(line3dDome1, null, {renderer: 'canvas'});
+  const my3dChart2 = echarts.init(line3dDome2, null, {renderer: 'canvas'});
+
+  function show3dLine(){
+    line3dDome1.style.display = "block"
+    line3dDome2.style.display = "block"
+    chartDom.style.display = "none"
+  }
+
+  function showLine(){
+    line3dDome1.style.display = "none"
+    line3dDome2.style.display = "none"
+    chartDom.style.display = "block"
+  }
+
+  doLinear()
+
+
+  // 具体方法
+  function drawLine(scatter, fit, func) {
+    showLine()
+    document.getElementById("func").innerHTML = ' 公式：' + func;
+    draw(scatter, fit);
+  }
+
+  function draw(scatter,fit) {
+    let option = {
+      xAxis: {
+        splitLine: {
+          lineStyle: {
+            type: 'dashed'
+          }
+        }
+      },
+      yAxis: {
+        splitLine: {
+          lineStyle: {
+            type: 'dashed'
+          }
+        }
+      },
+      series: [{
+        name: 'scatter',
+        type: 'scatter',
+        data: scatter
+      },{
+        name: 'line',
+        type: 'line',
+        data: fit,
+      }]
+    };
+    option && myChart.setOption(option);
+  }
+
+
+  // 具体方法
+  function draw3dLine(scatter, fit, func) {
+    show3dLine()
+    document.getElementById("func").innerHTML = ' 公式：' + func;
+    draw3d(scatter, my3dChart1);
+    draw3d(fit, my3dChart2);
+  }
+
+  function draw3d(data, chartInstance){
+    let option = {
+      tooltip: {},
+      backgroundColor: '#fff',
+      visualMap: {
+        show: false,
+        dimension: 2,
+        min: 0,
+        max: 30,
+        inRange: {
+          color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        }
+      },
+      xAxis3D: {
+        type: 'value'
+      },
+      yAxis3D: {
+        type: 'value'
+      },
+      zAxis3D: {
+        type: 'value'
+      },
+      grid3D: {
+        viewControl: {
+          projection: 'orthographic'
+        }
+      },
+      series: [{
+        type: 'line3D',
+        data: data,
+        lineStyle: {
+          width: 4
+        }
+      }]
+    };
+    option && chartInstance.setOption(option);
+  }
+
+</script>
+</html>

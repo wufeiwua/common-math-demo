@@ -1,0 +1,12 @@
+spring:
+  web:
+    resources:
+      static-locations: classpath:/static/， classpath:/templates/
+  mvc:
+    static-path-pattern: /static/, /templates/
+
+
+server:
+  port: 9000
+  tomcat:
+    uri-encoding: utf-8

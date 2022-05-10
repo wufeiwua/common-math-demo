@@ -1,6 +1,7 @@
 package org.wfw.chart.data;
 
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
+import org.wfw.chart.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,7 @@ public class MultipleLinearRegressionData {
      * arr[1] 对应所有的 x1 的值
      * arr[2] 对应所有的 x2 的值
      */
+    @Deprecated
     public static double[][] multiVarPolyScatters() {
         double[][] x = randomX();
         double[] y = randomY(x);
@@ -104,6 +106,50 @@ public class MultipleLinearRegressionData {
         return data;
     }
 
+
+    /**
+     * 生成原始随机数据
+     * @return
+     */
+    public static double [][] multiScatters(){
+        double [][] xy = randomX();
+        double [] z = randomY(xy);
+        double[][] xyz = new double[z.length][3];// x1, x2, y
+        for (int i = 0; i < z.length; i++) {
+            xyz[i] = new double[]{xy[i][0], xy[i][1], z[i]};
+        }
+        return xyz;
+    }
+
+    public static Result multiFit(double[][] xy, double[] z){
+        OLSMultipleLinearRegression ols = new OLSMultipleLinearRegression();
+        ols.newSampleData(z, xy);
+        // ct 即为拟合结果
+        double[] ct = ols.estimateRegressionParameters();
+        double[] newZ = new double[z.length];
+        for (int i = 0; i < z.length; i++) {
+            // 重新计算 y 的值。与原有构造的 y 对比
+            newZ[i] = functionValueY(ct, xy[i]);
+        }
+
+        double[][] data = new double[z.length][3];// x, y, z
+        for (int i = 0; i < newZ.length; i++) {
+            // ==================== x1 ====== x2 ======= y ====
+            data[i] = new double[]{xy[i][0], xy[i][1], newZ[i]};
+        }
+
+        // f(x1,x2) = y = a + b * x1 + c * sin(x2)
+        double a = ct[0], b = ct[1], c = ct[2];
+        String func = "f(x1, x2) = " +
+                a +
+                (b > 0 ? "+" : "- ") +
+                b +
+                "x1" +
+                (c > 0 ? "+" : "- ") +
+                "sin(x2)";
+        return new Result(data, func);
+    }
+
     public static void main(String[] args) {
         double[][] doubles = multiVarPolyScatters();
         System.out.println(toJSONStr(doubles));
@@ -111,6 +157,7 @@ public class MultipleLinearRegressionData {
         System.out.println();
     }
 
+    @Deprecated
     public static String toJSONStr(double[][] points) {
         StringBuilder builder = new StringBuilder();
         builder.append('[');
