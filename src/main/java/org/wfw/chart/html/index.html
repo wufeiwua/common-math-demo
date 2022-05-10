@@ -13,8 +13,8 @@
 </body>
 <script>
   const chartDom = document.getElementById('main');
-  const myChart = echarts.init(chartDom);
-  // const myChart = echarts.init(chartDom, null, {renderer: 'svg'});
+  // const myChart = echarts.init(chartDom);
+  const myChart = echarts.init(chartDom, null, {renderer: 'svg'});
 
   function drawLine(scatter, fit, func) {
     document.getElementById("func").innerHTML = ' 公式：' + func;
