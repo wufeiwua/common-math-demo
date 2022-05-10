@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.0.2/echarts.js"></script>
+<body>
+<div>点击下方按钮生成随机拟合结果图</div>
+<div id = "main" style="width: 600px;height:400px;"></div>
+<div id = "func"></div>
+</body>
+<script>
+  const chartDom = document.getElementById('main');
+  const myChart = echarts.init(chartDom, null, {renderer: 'svg'});
+
+  function drawLine(scatter, fit, func) {
+    document.getElementById("func").innerHTML = ' 公式：' + func;
+    draw(JSON.parse(scatter), JSON.parse(fit));
+  }
+
+  function draw(scatter,fit) {
+    var option = {
+      xAxis: {
+        splitLine: {
+          lineStyle: {
+            type: 'dashed'
+          }
+        }
+      },
+      yAxis: {
+        splitLine: {
+          lineStyle: {
+            type: 'dashed'
+          }
+        }
+      },
+      series: [{
+        name: 'scatter',
+        type: 'scatter',
+        data: scatter
+      },{
+        name: 'line',
+        type: 'line',
+        data: fit,
+      }]
+    };
+    option && myChart.setOption(option);
+  }
+</script>
+</html>
