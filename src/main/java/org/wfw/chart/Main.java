@@ -35,8 +35,8 @@ public class Main extends Application {
 
     @Override
     public void start(final Stage stage) {
-        stage.setWidth(780);
-        stage.setHeight(600);
+        stage.setWidth(900);
+        stage.setHeight(700);
         Scene scene = getScene(stage);
         stage.setScene(scene);
         stage.setTitle("Loading...");
