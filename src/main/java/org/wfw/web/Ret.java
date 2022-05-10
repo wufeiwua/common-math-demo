@@ -1,4 +1,4 @@
-package org.web;
+package org.wfw.web;
 
 import org.wfw.chart.Result;
 
