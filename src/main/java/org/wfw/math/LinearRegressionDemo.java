@@ -14,31 +14,27 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
  */
 public class LinearRegressionDemo {
 
+    // 已知函数 y = 2x + 3
+    public double func(double x) {
+        return 2 * x + 3;
+    }
+
+    // 生成待拟合数据
+    public double[][] getPoints() {
+        double[][] xy = new double[100][2];
+        for (int x = 0; x < 100; x++) {
+            xy[x][0] = x; // x
+            xy[x][1] = func(x); // y
+        }
+        return xy;
+    }
 
     /**
      * points[0] == x 存放 x 值
      * points[1] == y 存放 y 值
      */
-    private double[][] points;
-
-    /**
-     *
-     *
-     * 初始化点集合 200 个点
-     *
-     * 假设 k = 2 , b = 3
-     * 则: f(x) = 2x + 3
-     *
-     */
-    public LinearRegressionDemo() {
-        points = new double[200][2];
-        for (int i = 0; i < 200; i++) {
-            points[i][0] = i; // x
-            points[i][1] = 2 * i + 3; // y
-        }
-    }
-
     public void regression() {
+        double[][] points = getPoints();
         SimpleRegression regression = new SimpleRegression();
         regression.addData(points); // 数据集
         /*
