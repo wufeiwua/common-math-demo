@@ -108,6 +108,17 @@ public class Main extends Application {
             }
         });
 
+        // 不支持 WebGL
+        // Button button4 = new Button("多元多项式");
+        // button4.setOnAction(event -> {
+        //     try {
+        //         double[][] scatters = MultipleLinearRegressionData.multiVarPolyScatters();
+        //         win.call("draw3DLine");
+        //     } catch (JSException e) {
+        //         e.printStackTrace();
+        //     }
+        // });
+
 
         VBox stackPane = new VBox();
         HBox hBox = new HBox();
