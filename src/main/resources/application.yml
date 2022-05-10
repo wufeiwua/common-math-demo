@@ -10,3 +10,5 @@ server:
   port: 9000
   tomcat:
     uri-encoding: utf-8
+  servlet:
+    context-path: /commons-math

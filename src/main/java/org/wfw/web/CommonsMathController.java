@@ -20,7 +20,7 @@ public class CommonsMathController {
     }
 
     @ResponseBody
-    @GetMapping("linear")
+    @GetMapping("/api/linear")
     public Ret linear() {
         double[][] scatters = LinearRegressionData.linearScatters();
         Result result = LinearRegressionData.linearFit(scatters);
@@ -28,7 +28,7 @@ public class CommonsMathController {
     }
 
     @ResponseBody
-    @GetMapping("simple")
+    @GetMapping("/api/simple")
     public Ret simple(){
         double[][] scatters = SimpleCurveFitterData.curveScatters();
         Result result = SimpleCurveFitterData.curveFit(scatters);
@@ -36,7 +36,7 @@ public class CommonsMathController {
     }
 
     @ResponseBody
-    @GetMapping("customize")
+    @GetMapping("/api/customize")
     public Ret customize(){
         double[][] scatters = CustomizeCurveFitterDemo.customizeFuncScatters();
         Result result = CustomizeCurveFitterDemo.customizeFuncFit(scatters);
@@ -44,7 +44,7 @@ public class CommonsMathController {
     }
 
     @ResponseBody
-    @GetMapping("multiple")
+    @GetMapping("/api/multiple")
     public Ret multiple(){
         double[][] scatters = MultipleLinearRegressionData.multiScatters();
         // 拆分数据

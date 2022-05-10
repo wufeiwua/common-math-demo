@@ -1,15 +1,15 @@
 function linear(){
-  return fetch("/linear").then(res=>res.text()).then(res=>JSON.parse(res))
+  return fetch("/commons-math/api/linear").then(res=>res.text()).then(res=>JSON.parse(res))
 }
 
 function simple(){
-  return fetch("/simple").then(res=>res.text()).then(res=>JSON.parse(res))
+  return fetch("/commons-math/api/simple").then(res=>res.text()).then(res=>JSON.parse(res))
 }
 
 function customize(){
-  return fetch("/customize").then(res=>res.text()).then(res=>JSON.parse(res))
+  return fetch("/commons-math/api/customize").then(res=>res.text()).then(res=>JSON.parse(res))
 }
 
 function multiple(){
-  return fetch("/multiple").then(res=>res.text()).then(res=>JSON.parse(res))
+  return fetch("/commons-math/api/multiple").then(res=>res.text()).then(res=>JSON.parse(res))
 }
