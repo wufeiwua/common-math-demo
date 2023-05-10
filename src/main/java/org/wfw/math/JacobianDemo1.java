@@ -21,6 +21,7 @@ public class JacobianDemo1 {
         double[] z = {12, 24, 40, 60, 84};
 
         //  f(x,y) = a + b*x^c + d*y^e
+        //  拟合出 a,b,c,d,e 的值
         MultivariateJacobianFunction function = new MultivariateJacobianFunction() {
             @Override
             public Pair<RealVector, RealMatrix> value(final RealVector point) {

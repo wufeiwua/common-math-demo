@@ -18,6 +18,7 @@ public class JacobianDemo0 {
         final double[] F_x = new double[]{2, 4, 6, 8, 11, 13, 14, 15, 18};
 
         // f(x) = kx + b
+        // 拟合出 k 和 b 的值
         MultivariateJacobianFunction jacobianFunction = point -> {
             double k = point.getEntry(0);
             double b = point.getEntry(1);
