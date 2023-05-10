@@ -1,14 +1,17 @@
 package org.wfw.math;
 
-import org.apache.commons.math3.fitting.leastsquares.*;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.fitting.leastsquares.MultivariateJacobianFunction;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.util.Pair;
 
-public class JacobinFitDemo0 {
+public class JacobianDemo0 {
     public static void main(String[] args) {
 
         final double[] x_Data = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -20,13 +23,14 @@ public class JacobinFitDemo0 {
             double b = point.getEntry(1);
 
             ArrayRealVector value = new ArrayRealVector(F_x.length);
-            // !!!需要拟合 k 和 b 两个参数，所以矩阵的列是 2
+            // !!! 需要拟合 k 和 b 两个参数，所以矩阵的列是 2  !!!
             Array2DRowRealMatrix jacobian = new Array2DRowRealMatrix(F_x.length, 2);
 
+            // 转为雅可比矩阵
             for (int i = 0; i < F_x.length; i++) {
                 double x = x_Data[i];
 
-                // f(x) = kx + b
+                // f(k,b) = kx + b
                 double fx = k * x + b;
                 value.setEntry(i, fx);
 
@@ -45,7 +49,7 @@ public class JacobinFitDemo0 {
         // f(x) 的值
         RealVector targetValues = new ArrayRealVector(F_x);
 
-        // 最小二乘问题
+        // 转为最小二乘问题
         LeastSquaresProblem problem = new LeastSquaresBuilder()
                 .start(initialGuess)
                 .model(jacobianFunction)
